@@ -85,8 +85,11 @@ new Vue({
                 this.turns.unshift({
                     isPlayer: true,
                     text: "Player heals for " + damage
+                    
                 });
-            
+                if (this.playerHealth > 100){
+                    this.playerHealth = 100;
+                }
                 
             } else {
                 this.turns.unshift({
