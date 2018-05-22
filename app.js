@@ -102,10 +102,10 @@ new Vue({
             return Math.floor(Math.random() * (max - min + 1) + min);
         },
         isGameOver: function () {
-            if (this.playerHealth < 0) {
+            if (this.playerHealth <= 0) {
                 this.stopGame();
                 alert("Game over! You lose!");
-            } else if (this.monsterHealth < 0) {
+            } else if (this.monsterHealth <= 0) {
                 this.stopGame();
                 alert("Congratulations! You won!");
             }
