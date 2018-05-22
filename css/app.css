@@ -1,4 +1,4 @@
-.text-center {
+g.text-center {
     text-align: center;
 }
 
@@ -10,7 +10,8 @@
     transition: width 500ms;
 }
 
-.controls, .log {
+.controls,
+.log {
     margin-top: 30px;
     text-align: center;
     padding: 10px;

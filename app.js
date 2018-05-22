@@ -4,7 +4,7 @@ new Vue({
         isGameOn: false,
         playerHealth: 100,
         monsterHealth: 100,
-        turns :[],
+        turns: [],
 
     },
     watch: {
@@ -24,18 +24,23 @@ new Vue({
             this.isGameOn = false;
             this.playerHealth = 80;
             this.monsterHealth = 80;
-            this.turns =[];
+            this.turns = [];
         },
         playerAttack: function () {
             if (Math.random() > 0.30) {
                 var damage = this.calculateDmg(3, 6);
                 this.monsterHealth -= damage;
                 this.turns.unshift({
-                    isPlayer:true,
-                    text :"Player hits for " + damage
+                    isPlayer: true,
+                    text: "Player hits for " + damage
                 })
 
 
+            } else {
+                this.turns.unshift({
+                    isPlayer : true,
+                    text:"player Misses!"
+                })
             }
             this.isGameOver();
             this.monsterAttack();
@@ -46,28 +51,55 @@ new Vue({
                 this.playerHealth -= damage;
                 this.isGameOver();
                 this.turns.unshift({
-                    isPlayer:false,
-                    text :"Monster hits for " + damage
+                    isPlayer: false,
+                    text: "Monster hits for " + damage
+                })
+            } else {
+                this.turns.unshift({
+                    isPlayer: false,
+                    text: "Monster misses!"
                 })
             }
         },
         playerSpecialAttack: function () {
             if (Math.random() > 0.70) {
-                this.monsterHealth -= this.calculateDmg(8, 9);
+                var damage = this.calculateDmg(7 , 9);
+                this.monsterHealth -= damage;
+                this.turns.unshift({
+                    isPlayer: true,
+                    text: "Player uses special ability  for " + damage
+                })
                 this.isGameOver();
+            } else {
+                this.turns.unshift({
+                    isPlayer : true,
+                    text : "Players Misses!",
+                })
             }
             this.monsterAttack();
         },
         playerHeal: function () {
             if (Math.random() > 0.30) {
-                this.playerHealth += this.calculateDmg(2, 10);
-
+                var damage =this.calculateDmg(2, 10);
+                this.playerHealth += damage;
+                this.turns.unshift({
+                    isPlayer: true,
+                    text: "Player heals for " + damage
+                });
+            
+                
+            } else {
+                this.turns.unshift({
+                    isPlayer : true,
+                    text: "Heal fails!"
+                }
+                )
             }
             this.monsterAttack();
 
         },
         calculateDmg: function (min, max) {
-            return Math.floor(Math.random() * (max - min) + min);
+            return Math.floor(Math.random() * (max - min + 1) + min);
         },
         isGameOver: function () {
             if (this.playerHealth < 0) {
@@ -81,29 +113,25 @@ new Vue({
     },
     computed: {
         playerHealthBarColor: function () {
-            if (this.playerHealth > 60) {
+            if (this.playerHealth >= 60) {
                 return "green";
-            }
-            else if (60 >  this.playerHealth && this.playerHealth > 20 ){
+            } else if (60 > this.playerHealth && this.playerHealth > 20) {
                 return "yellow";
 
-            }
-            else if (this.playerHealth <=20){
+            } else if (this.playerHealth <= 20) {
                 return "red";
             }
         },
-    
-    monsterHealthBarColor : function(){
-        if (this.monsterHealth > 60) {
-            return "green";
-        }
-        else if (60 >  this.monsterHealth && this.playerHealth > 20 ){
-            return "yellow";
 
+        monsterHealthBarColor: function () {
+            if (this.monsterHealth >= 60) {
+                return "green";
+            } else if (60 > this.monsterHealth && this.monsterHealth > 20) {
+                return "yellow";
+
+            } else if (this.monsterHealth <= 20) {
+                return "red";
+            }
         }
-        else if (this.monsterHealth <=20){
-            return "red";
-        }
-    }
-},
+    },
 })
